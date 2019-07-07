@@ -163,6 +163,9 @@ public class UseNextSnapshotsMojo
                                                              newVersion, getProject().getModel() ) )
                         {
                             getLog().info( "Updated " + toString( dep ) + " to version " + newVersion );
+
+                            this.getChangeRecorder().recordUpdate( "useNextSnapshots", dep.getGroupId(),
+                                    dep.getArtifactId(), version, newVersion );
                         }
                         break;
                     }
