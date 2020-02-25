@@ -39,7 +39,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-ubuntu-latest-
       - name: 'Build'
-        run: mvn -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
+        run: ./mvnw -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
   windows:
     name: 'Windows'
     runs-on: windows-latest
@@ -57,7 +57,7 @@ jobs:
           java-version: 8
       - name: 'Build'
         shell: bash
-        run: mvn -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
+        run: ./mvnw -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
   mac:
     name: 'Mac OS'
     runs-on: macos-latest
@@ -74,4 +74,4 @@ jobs:
         with:
           java-version: 8
       - name: 'Build'
-        run: mvn -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
+        run: ./mvnw -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
