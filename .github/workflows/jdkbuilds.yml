@@ -43,4 +43,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-${{ matrix.jdk }}-
       - name: 'Build'
-        run: ./mvnw -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
+        run: MAVEN_USER_HOME=/tmp/mvn-user-home ./mvnw -B -V --no-transfer-progress -Prun-its clean verify --fail-at-end
