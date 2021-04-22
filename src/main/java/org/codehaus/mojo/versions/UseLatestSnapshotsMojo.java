@@ -64,7 +64,7 @@ public class UseLatestSnapshotsMojo
 
     /**
      * Whether to allow the minor version number to be changed.
-     * 
+     *
      * @since 1.0-beta-1
      */
     @Parameter( property = "allowMinorUpdates", defaultValue = "false" )
@@ -197,11 +197,15 @@ public class UseLatestSnapshotsMojo
                     latestVersion = filteredVersions[filteredVersions.length - 1].toString();
                     if ( getProject().getParent() != null )
                     {
-                        if ( artifact.getId().equals(getProject().getParentArtifact().getId()) && isProcessingParent() )
+                        final Artifact parentArtifact = getProject().getParentArtifact();
+                        if ( artifact.getId().equals( parentArtifact.getId()) && isProcessingParent() )
                         {
                             if ( PomHelper.setProjectParentVersion( pom, latestVersion.toString() ) )
                             {
                                 getLog().debug( "Made parent update from " + version + " to " + latestVersion.toString() );
+
+                                this.getChangeRecorder().recordUpdate( "useLatestSnapshots", parentArtifact.getGroupId(),
+                                        parentArtifact.getArtifactId(), version, latestVersion );
                             }
                         }
                     }
@@ -210,6 +214,9 @@ public class UseLatestSnapshotsMojo
                                                          latestVersion, getProject().getModel() ) )
                     {
                         getLog().info( "Updated " + toString( dep ) + " to version " + latestVersion );
+
+                        this.getChangeRecorder().recordUpdate( "useLatestSnapshots", dep.getGroupId(),
+                                dep.getArtifactId(), version, latestVersion );
                     }
                 }
             }

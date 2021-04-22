@@ -163,3 +163,4 @@ Versions Maven Plugin
 
   * {{{./examples/set.html}Changing the project version}}
 
+  * {{{./examples/recording-changes.html}Recording version changes}}

@@ -39,9 +39,11 @@ import javax.xml.stream.XMLStreamException;
  * @author Stephen Connolly
  * @since 1.0-alpha-1
  */
-@Mojo( name = "update-parent", requiresProject = true, requiresDirectInvocation = true, threadSafe = true )
-public class UpdateParentMojo
-    extends AbstractVersionsUpdaterMojo
+@Mojo( name = "update-parent",
+       requiresProject = true,
+       requiresDirectInvocation = true,
+       threadSafe = true )
+public class UpdateParentMojo extends AbstractVersionsUpdaterMojo
 {
 
     // ------------------------------ FIELDS ------------------------------
@@ -51,7 +53,8 @@ public class UpdateParentMojo
      *
      * @since 1.0-alpha-1
      */
-    @Parameter( property = "parentVersion", defaultValue = "null" )
+    @Parameter( property = "parentVersion",
+                defaultValue = "null" )
     protected String parentVersion = null;
 
     // -------------------------- OTHER METHODS --------------------------
@@ -59,13 +62,12 @@ public class UpdateParentMojo
     /**
      * @param pom the pom to update.
      * @throws MojoExecutionException when things go wrong
-     * @throws MojoFailureException when things go wrong in a very bad way
-     * @throws XMLStreamException when things go wrong with XML streaming
+     * @throws MojoFailureException   when things go wrong in a very bad way
+     * @throws XMLStreamException     when things go wrong with XML streaming
      * @see AbstractVersionsUpdaterMojo#update(ModifiedPomXMLEventReader)
      * @since 1.0-alpha-1
      */
-    protected void update( ModifiedPomXMLEventReader pom )
-        throws MojoExecutionException, MojoFailureException, XMLStreamException
+    protected void update( ModifiedPomXMLEventReader pom ) throws MojoExecutionException, MojoFailureException, XMLStreamException
     {
         if ( getProject().getParent() == null )
         {
@@ -98,8 +100,7 @@ public class UpdateParentMojo
         }
 
         Artifact artifact = artifactFactory.createDependencyArtifact( getProject().getParent().getGroupId(),
-                                                                      getProject().getParent().getArtifactId(),
-                                                                      versionRange, "pom", null, null );
+                getProject().getParent().getArtifactId(), versionRange, "pom", null, null );
 
         ArtifactVersion artifactVersion;
         try
@@ -120,6 +121,8 @@ public class UpdateParentMojo
 
         if ( PomHelper.setProjectParentVersion( pom, artifactVersion.toString() ) )
         {
+            this.getChangeRecorder().recordUpdate( "updateParent", artifact.getGroupId(), artifact.getArtifactId(),
+                    currentVersion, artifactVersion.toString() );
             getLog().debug( "Made an update from " + currentVersion + " to " + artifactVersion.toString() );
         }
     }
